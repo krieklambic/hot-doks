@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hot-doks-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hot-doks-app
+  template:
+    metadata:
+      labels:
+        app: hot-doks-app
+    spec:
+      containers:
+      - name: hot-doks-app
+        image: hot-doks-app
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5

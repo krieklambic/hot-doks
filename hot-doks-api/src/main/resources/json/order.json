@@ -1,0 +1,29 @@
+{
+    "orderedBy": "John",
+    "hotdogs": [
+        {
+            "type": "CLASSIC",
+            "withKetchup": true,
+            "withMustard": true,
+            "withMayo": false,
+            "withOnions": true,
+            "comment": "Extra crispy onions please"
+        },
+        {
+            "type": "ALSACE",
+            "withKetchup": false,
+            "withMustard": true,
+            "withMayo": false,
+            "withOnions": true,
+            "comment": "Extra sauerkraut"
+        },
+        {
+            "type": "NEWYORK",
+            "withKetchup": true,
+            "withMustard": true,
+            "withMayo": true,
+            "withOnions": true,
+            "comment": "Extra cheddar"
+        }
+    ]
+}
