@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build',
+            '--build-arg',
+            'environment=${_ENVIRONMENT}',
+            '-t',
+            'gcr.io/$PROJECT_ID/${_APP_NAME}:${_VERSION}',
+            '.' ]
+substitutions:
+  _APP_NAME: hot-doks-api
+  _ENVIRONMENT: production
+  _VERSION: 1.0.0-SNAPSHOT
+images:
+  - 'gcr.io/$PROJECT_ID/${_APP_NAME}:${_VERSION}'
+timeout: 1600s

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hot-doks-api
+  labels:
+    app: hot-doks-api
+spec:
+  replicas: 2 # Adjust replicas based on load
+  selector:
+    matchLabels:
+      app: hot-doks-api
+  template:
+    metadata:
+      labels:
+        app: hot-doks-api
+    spec:
+      containers:
+      - name: hot-doks-api
+        image: gcr.io/comexis-test/hot-doks-api:latest # Replace with your image URL
+        ports:
+        - containerPort: 8080

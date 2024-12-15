@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hot-doks-app
+  labels:
+    app: hot-doks-app
+spec:
+  replicas: 2 
+  selector:
+    matchLabels:
+      app: hot-doks-app
+  template:
+    metadata:
+      labels:
+        app: hot-doks-app
+    spec:
+      containers:
+      - name: hot-doks-app
+        image: gcr.io/comexis-test/hot-doks-app:latest 
+        ports:
+        - containerPort: 80

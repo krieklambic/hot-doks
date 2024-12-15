@@ -9,9 +9,9 @@ spring:
   
   # Database Configuration
   datasource:
-    url: jdbc:postgresql://localhost:5432/hotdoks
+    url: jdbc:postgresql://hs-test-sql.comexis.net:5432/locker-app
     username: postgres
-    password: postgres
+    password: kX9YBRQvcQew
     driver-class-name: org.postgresql.Driver
   
   # JPA Configuration
