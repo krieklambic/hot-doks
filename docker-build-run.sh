@@ -9,6 +9,9 @@ git pull
 #Build Spring boot project
 ./build-api.sh
 
+#Build React app
+./build-app.sh
+
 echo "🔨 Building Docker images..."
 
 # Stop and remove existing containers if they exist
