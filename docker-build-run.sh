@@ -5,6 +5,10 @@ set -e
 
 #Get latest version from git
 git pull
+
+#Build Spring boot project
+./build-api.sh
+
 echo "🔨 Building Docker images..."
 
 # Stop and remove existing containers if they exist
