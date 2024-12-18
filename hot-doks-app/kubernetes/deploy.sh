@@ -9,16 +9,16 @@ revision=$(git rev-parse --short HEAD)
 
 
 # Set gcloud configuration
-gcloud config set project comexis-$env
-gcloud config set container/cluster hs-$env-cluster
-gcloud container clusters get-credentials hs-$env-cluster
+gcloud config set project comexis-test
+gcloud config set container/cluster hs-test-cluster
+gcloud container clusters get-credentials hs-test-cluster
 
 echo
-echo  ---- Deploying $app:$version-$revision to $env environment ---
+echo  ---- Deploying $app:$version-$revision to testenvironment ---
 echo
 
 #Building the image
-gcloud builds submit --config cloudbuild.yaml --substitutions=_APP_NAME=$app,_ENVIRONMENT=$env,_VERSION=$version .
+gcloud builds submit --config cloudbuild.yaml --substitutions=_APP_NAME=hot-doks-app,_ENVIRONMENT=test,_VERSION=$version .
 
 #Add the latest tag
 gcloud container images add-tag gcr.io/comexis-$env/$app:$version gcr.io/comexis-$env/$app:latest --quiet

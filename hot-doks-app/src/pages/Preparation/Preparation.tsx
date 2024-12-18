@@ -76,6 +76,32 @@ const Preparation: React.FC = () => {
     navigate('/preparation/commande');
   };
 
+  const handleFinishPreparation = async (orderId: string) => {
+    try {
+      const url = `${API_BASE_URL}/orders/${orderId}/status?status=READY`;
+      console.log('Finishing preparation, calling API:', url);
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        credentials: 'include'
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to mark order as prepared');
+      }
+      
+      // Refresh the orders lists
+      fetchOrders();
+      fetchInPreparationOrders();
+    } catch (error) {
+      console.error('Error marking order as prepared:', error);
+    }
+  };
+
   const fetchOrders = useCallback(async () => {
     const url = `${API_BASE_URL}/orders/status/ORDERED`;
     console.log('Fetching orders from:', url);
@@ -163,6 +189,19 @@ const Preparation: React.FC = () => {
     };
   }, [fetchOrders, fetchInPreparationOrders]);
 
+  const ActionIcon = styled.i.attrs({ className: 'material-icons' })`
+    font-size: 20px;
+    color: ${({ theme }) => theme.colors.success};
+    cursor: pointer;
+    padding: 4px;
+    border-radius: ${({ theme }) => theme.radii.small};
+    transition: all ${({ theme }) => theme.transitions.default};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.backgroundGrey};
+    }
+  `;
+
   return (
     <PageContainer>
       <HeaderSection>
@@ -248,11 +287,19 @@ const Preparation: React.FC = () => {
                   <TableCell>{order.newYork}</TableCell>
                   <TableCell>{order.total}</TableCell>
                   <TableCell>{order.preparationMinutes} min</TableCell>
+                  <TableCell style={{ width: '40px', textAlign: 'center' }}>
+                    <ActionIcon
+                      onClick={() => handleFinishPreparation(order.id)}
+                      title="Terminer la préparation"
+                    >
+                      check_circle
+                    </ActionIcon>
+                  </TableCell>
                 </TableRow>
               ))}
               {inPreparationOrders.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={9} style={{ textAlign: 'center' }}>
+                  <TableCell colSpan={10} style={{ textAlign: 'center' }}>
                     Aucune commande en préparation
                   </TableCell>
                 </TableRow>
