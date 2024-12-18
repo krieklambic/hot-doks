@@ -126,7 +126,7 @@ interface OrderView {
 }
 
 const ITEMS_PER_PAGE = 15;
-const API_BASE_URL = 'http://hotdoks.ravioli-inc.com:8080/hot-doks-api';
+const API_BASE_URL = 'http://localhost:8080/hot-doks-api';
 
 const formatDate = (date: Date): string => {
   const day = date.getDate().toString().padStart(2, '0');
