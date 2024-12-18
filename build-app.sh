@@ -1,3 +1,3 @@
-cd hot-docks-app
+cd hot-doks-app
 npm install
 npm run build
