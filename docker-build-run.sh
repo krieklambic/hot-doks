@@ -25,10 +25,14 @@ echo "🚀 Starting containers..."
 # Stop and remove existing containers if they exist
 docker rm -f hot-doks-api hot-doks-app 2>/dev/null || true
 
+# Create a network for the containers if it doesn't exist
+docker network create hot-doks-network 2>/dev/null || true
+
 # Run the API container
 echo "Starting API container..."
 docker run -d \
     --name hot-doks-api \
+    --network hot-doks-network \
     -p 8080:8080 \
     hot-doks-api
 
@@ -36,12 +40,14 @@ docker run -d \
 echo "Starting App container..."
 docker run -d \
     --name hot-doks-app \
-    -p 3000:3000 \
+    --network hot-doks-network \
+    -p 80:3000 \
+    -e API_URL=http://hot-doks-api:8080 \
     hot-doks-app
 
 echo "✅ Containers are up and running!"
 echo "API is available at http://localhost:8080"
-echo "App is available at http://localhost:3000"
+echo "App is available at http://localhost"
 
 # Show running containers
 echo "\n📊 Running containers:"
