@@ -3,6 +3,8 @@
 # Exit on any error
 set -e
 
+#Get latest version from git
+git pull
 echo "🔨 Building Docker images..."
 
 # Stop and remove existing containers if they exist
