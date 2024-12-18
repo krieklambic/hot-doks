@@ -41,7 +41,7 @@ echo "Starting App container..."
 docker run -d \
     --name hot-doks-app \
     --network hot-doks-network \
-    -p 80:8080 \
+    -p 80:3000 \
     -e API_BASE_URL=http://hot-doks-api:8080 \
     -e NODE_ENV=production \
     hot-doks-app
