@@ -5,6 +5,12 @@ set -e
 
 echo "🔨 Building Docker images..."
 
+# Stop and remove existing containers if they exist
+docker rm -f hot-doks-api hot-doks-app 2>/dev/null || true
+
+# Stop and remove existing images if they exist
+docker rmi -f hot-doks-api hot-doks-app 2>/dev/null || true
+
 # Build the API image
 echo "Building API image..."
 cd hot-doks-api
@@ -21,9 +27,6 @@ cd ../hot-doks-app
 docker build -t hot-doks-app .
 
 echo "🚀 Starting containers..."
-
-# Stop and remove existing containers if they exist
-docker rm -f hot-doks-api hot-doks-app 2>/dev/null || true
 
 # Create a network for the containers if it doesn't exist
 docker network create hot-doks-network 2>/dev/null || true
