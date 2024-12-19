@@ -152,8 +152,11 @@ const Paiement: React.FC = () => {
       const response = await fetch(`${config.API_BASE_URL}/orders`, {
         method: 'POST',
         headers: {
+          'Accept': 'application/json',
           'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
         },
+        credentials: 'include',
         body: JSON.stringify(finalOrder)
       });
 

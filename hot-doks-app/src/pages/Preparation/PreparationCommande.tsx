@@ -69,7 +69,9 @@ const PreparationCommande: React.FC = () => {
       try {
         const url = `${config.API_BASE_URL}/orders/next-to-prepare?user=${username}`;
         console.log('Fetching next order to prepare, calling API:', url);
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          credentials: 'include'
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch next order');
         }
@@ -138,7 +140,8 @@ const PreparationCommande: React.FC = () => {
     console.log('Starting preparation, calling API:', url);
     try {
       const response = await fetch(url, {
-        method: 'POST'
+        method: 'POST',
+        credentials: 'include'
       });
       
       if (!response.ok) {
