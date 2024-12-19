@@ -144,12 +144,17 @@ const Commandes: React.FC = () => {
 
   const calculateWaitingTime = (orderTime: string, status: string, preparationTime: string | null): number => {
     const orderDateTime = new Date(orderTime);
+    const now = new Date();
     
+    // For READY orders, use the preparation time
     if (status === 'READY' && preparationTime) {
       const preparationDateTime = new Date(preparationTime);
       return Math.floor((preparationDateTime.getTime() - orderDateTime.getTime()) / (1000 * 60));
     }
-    return Math.floor((new Date().getTime() - orderDateTime.getTime()) / (1000 * 60));
+    
+    // For orders in preparation, use current time but cap at 60 minutes
+    const waitingTime = Math.floor((now.getTime() - orderDateTime.getTime()) / (1000 * 60));
+    return Math.min(waitingTime, 60); // Cap at 60 minutes
   };
 
   const fetchOrders = async () => {
