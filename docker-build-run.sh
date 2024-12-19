@@ -54,7 +54,7 @@ docker run -d \
     --name hot-doks-app \
     --network hot-doks-network \
     -p 80:3000 \
-    -e REACT_APP_API_BASE_URL=http://hotdoks.ravioli-inc.com:8080 \
+    -e REACT_APP_API_BASE_URL=http://hotdoks.ravioli-inc.com:8080/hot-doks-api \
     -e NODE_ENV=production \
     hot-doks-app
 

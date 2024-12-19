@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import { useOrderStore } from '../../store/orderStore';
+import config from '../../config';
 
 const PageContainer = styled.div`
   height: calc(100vh - ${({ theme }) => theme.layout.headerHeight} - ${({ theme }) => theme.layout.footerHeight} - ${({ theme }) => theme.spacing.lg} * 2);
@@ -148,7 +149,7 @@ const Paiement: React.FC = () => {
         totalPrice: calculateTotal()
       };
 
-      const response = await fetch('http://localhost:8080/hot-doks-api/orders', {
+      const response = await fetch(`${config.API_BASE_URL}/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
