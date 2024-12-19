@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import { useOrderStore } from '../../store/orderStore';
 import config from '../../config';
+import { useAuth } from '../../context/AuthContext';
 
 const PageContainer = styled.div`
   height: calc(100vh - ${({ theme }) => theme.layout.headerHeight} - ${({ theme }) => theme.layout.footerHeight} - ${({ theme }) => theme.spacing.lg} * 2);
@@ -116,6 +117,7 @@ const Paiement: React.FC = () => {
   const navigate = useNavigate();
   const { currentOrder, clearCurrentOrder } = useOrderStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { username } = useAuth();
 
   const handleBack = () => {
     navigate('/commandes/nouvelle');
@@ -129,8 +131,8 @@ const Paiement: React.FC = () => {
 
       // Create a new order object without IDs
       const finalOrder = {
-        orderStatus: currentOrder.orderStatus,
-        orderedBy: currentOrder.orderedBy,
+        orderStatus: 'ORDERED',  // Set explicit status for new orders
+        orderedBy: username,     // Set the current user as orderedBy
         preparedBy: currentOrder.preparedBy,
         orderTime: new Date().toISOString(),
         preparationTime: currentOrder.preparationTime,
@@ -149,6 +151,11 @@ const Paiement: React.FC = () => {
         totalPrice: calculateTotal()
       };
 
+      console.log('Saving order:', {
+        url: `${config.API_BASE_URL}/orders`,
+        order: finalOrder
+      });
+
       const response = await fetch(`${config.API_BASE_URL}/orders`, {
         method: 'POST',
         headers: {
@@ -161,7 +168,13 @@ const Paiement: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to save order');
+        const errorText = await response.text();
+        console.error('Server response:', {
+          status: response.status,
+          statusText: response.statusText,
+          body: errorText
+        });
+        throw new Error(`Failed to save order: ${response.status} ${response.statusText}`);
       }
 
       clearCurrentOrder();
