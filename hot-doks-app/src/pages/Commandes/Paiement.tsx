@@ -134,8 +134,8 @@ const Paiement: React.FC = () => {
         orderStatus: 'ORDERED',  // Set explicit status for new orders
         orderedBy: username,     // Set the current user as orderedBy
         preparedBy: currentOrder.preparedBy,
-        orderTime: new Date().toISOString(),
-        preparationTime: currentOrder.preparationTime,
+        orderTime: new Date().toISOString(),  // Set the order time in ISO format
+        preparationTime: null,  // Initially null since it's a new order
         customerName: currentOrder.customerName,
         paymentType: paymentType,
         hotdogs: currentOrder.hotdogs.map(hotdog => ({

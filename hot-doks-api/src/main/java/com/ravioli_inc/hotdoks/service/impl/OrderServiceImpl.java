@@ -25,7 +25,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order save(Order order) {
-        order.setOrderTime(LocalDateTime.now());
+        if (order.getOrderTime() == null) {
+            order.setOrderTime(LocalDateTime.now());
+        }
         if (order.getOrderStatus() == null) {
             order.setOrderStatus(OrderStatus.ORDERED);
         }
