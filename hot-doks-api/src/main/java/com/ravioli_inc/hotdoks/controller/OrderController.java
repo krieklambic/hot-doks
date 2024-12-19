@@ -37,15 +37,16 @@ public class OrderController {
     })
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        System.out.println("API Request - POST /orders - Create new order");
         try {
-            System.out.println("Request body: " + objectMapper.writeValueAsString(order));
+            String requestJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(order);
+            System.out.println("Request JSON structure:\n" + requestJson);
         } catch (Exception e) {
             System.out.println("Error serializing request: " + e.getMessage());
         }
         Order savedOrder = orderService.save(order);
         try {
-            System.out.println("Response: " + objectMapper.writeValueAsString(savedOrder));
+            String responseJson = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(savedOrder);
+            System.out.println("Response JSON structure:\n" + responseJson);
         } catch (Exception e) {
             System.out.println("Error serializing response: " + e.getMessage());
         }
@@ -60,7 +61,6 @@ public class OrderController {
     })
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
-        System.out.println("API Request - GET /orders - Get all orders");
         List<Order> orders = orderService.findAll();
         /*if (orders.isEmpty()) {
             System.out.println("Response: No orders found");
@@ -83,7 +83,6 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(
             @Parameter(description = "ID of the order to retrieve") @PathVariable Long id) {
-        System.out.println("API Request - GET /orders/" + id + " - Get order by ID");
         return orderService.findById(id)
             .map(order -> {
                 try {
@@ -108,7 +107,6 @@ public class OrderController {
     @GetMapping("/status/{orderStatus}")
     public ResponseEntity<List<Order>> getOrdersByStatus(
             @Parameter(description = "Status to filter by") @PathVariable OrderStatus orderStatus) {
-        System.out.println("API Request - GET /orders/status/" + orderStatus + " - Get orders by status");
         List<Order> orders = orderService.findByStatus(orderStatus);
         if (orders.isEmpty()) {
             System.out.println("Response: No orders found with this status");
@@ -127,7 +125,6 @@ public class OrderController {
     public ResponseEntity<List<Order>> getOrdersFiltered(
             @Parameter(description = "Date in DDMMYYYY format") @RequestParam(required = false) String orderDate,
             @Parameter(description = "Order status") @RequestParam(required = false) OrderStatus status) {
-        System.out.println("API Request - GET /orders/filtered?orderDate=" + orderDate + "&status=" + status + " - Get filtered orders");
         List<Order> orders = orderService.findOrdersFiltered(orderDate, status);
         /*if (orders.isEmpty()) {
             System.out.println("Response: No orders found");
@@ -151,7 +148,6 @@ public class OrderController {
     })
     @GetMapping("/next-to-prepare")
     public ResponseEntity<Order> getNextOrderToPrepare(@RequestParam String user) {
-        System.out.println("API Request - GET /orders/next-to-prepare?user=" + user + " - Get next order to prepare");
         return orderService.getNextOrderToPrepare(user)
             .map(order -> {
                 try {
@@ -175,7 +171,6 @@ public class OrderController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(
             @Parameter(description = "ID of the order to delete") @PathVariable Long id) {
-        System.out.println("API Request - DELETE /orders/" + id + " - Delete order");
         orderService.deleteById(id);
         System.out.println("Response: Order deleted successfully");
         return ResponseEntity.noContent().build();
@@ -192,7 +187,6 @@ public class OrderController {
     public ResponseEntity<Order> updateOrderStatus(
         @Parameter(description = "ID of the order to update") @PathVariable Long id,
         @Parameter(description = "New status to apply") @RequestParam OrderStatus status) {
-        System.out.println("API Request - POST /orders/" + id + "/status?status=" + status + " - Update order status");
         Order updatedOrder = orderService.updateStatus(id, status);
         try {
             System.out.println("Response: " + objectMapper.writeValueAsString(updatedOrder));
