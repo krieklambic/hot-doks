@@ -1,18 +1,38 @@
-# Use an official base image
-FROM node:18-alpine
+# Build stage
+FROM node:18-alpine as build
 
-# Set the working directory in the container
+# Set the working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
+# Copy package files
 COPY package*.json ./
-RUN npm install --production
+
+# Install dependencies
+RUN npm install
 
 # Copy the rest of the application
 COPY . .
 
-# Expose the application's port (update to match your app's port)
-EXPOSE 8080
+# Set environment variable for build
+ARG REACT_APP_API_BASE_URL=http://hotdoks.ravioli-inc.com:8080
+ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
 
-# Run the application
-CMD ["npm", "start"]
+# Build the application
+RUN npm run build
+
+# Production stage
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install serve to run the application
+RUN npm install -g serve
+
+# Copy build files from build stage
+COPY --from=build /app/build ./build
+
+# Expose the port
+EXPOSE 3000
+
+# Start the application
+CMD ["serve", "-s", "build", "-l", "3000"]
