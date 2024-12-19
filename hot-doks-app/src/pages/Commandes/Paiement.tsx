@@ -147,7 +147,6 @@ const Paiement: React.FC = () => {
           comment: hotdog.comment,
           price: hotdog.price || getHotdogPrice(hotdog.type)
         })),
-        preparationMinutes: currentOrder.preparationMinutes,
         totalPrice: calculateTotal()
       };
 
