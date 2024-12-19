@@ -11,6 +11,7 @@ import {
   TableCell,
 } from '../../styles/globalStyles';
 import { ApiOrder, OrderView } from '../../types/api';
+import config from '../../config';
 
 const PageContainer = styled.div`
   padding: ${({ theme }) => theme.spacing.lg};
@@ -60,8 +61,6 @@ const SectionTitle = styled.h2<{ variant?: 'waiting' | 'preparation' }>`
   border-radius: ${({ theme }) => theme.radii.small};
 `;
 
-const API_BASE_URL = 'http://localhost:8080/hot-doks-api';
-
 const calculateWaitingTime = (orderTime: string): number => {
   const orderDateTime = new Date(orderTime);
   return Math.floor((new Date().getTime() - orderDateTime.getTime()) / (1000 * 60));
@@ -78,7 +77,7 @@ const Preparation: React.FC = () => {
 
   const handleFinishPreparation = async (orderId: string) => {
     try {
-      const url = `${API_BASE_URL}/orders/${orderId}/status?status=READY`;
+      const url = `${config.API_BASE_URL}/orders/${orderId}/status?status=READY`;
       console.log('Finishing preparation, calling API:', url);
       const response = await fetch(url, {
         method: 'POST',
@@ -103,7 +102,7 @@ const Preparation: React.FC = () => {
   };
 
   const fetchOrders = useCallback(async () => {
-    const url = `${API_BASE_URL}/orders/status/ORDERED`;
+    const url = `${config.API_BASE_URL}/orders/status/ORDERED`;
     console.log('Fetching orders from:', url);
     try {
       const response = await fetch(url, {
@@ -141,7 +140,7 @@ const Preparation: React.FC = () => {
   }, []);
 
   const fetchInPreparationOrders = useCallback(async () => {
-    const url = `${API_BASE_URL}/orders/status/IN_PREPARATION`;
+    const url = `${config.API_BASE_URL}/orders/status/IN_PREPARATION`;
     console.log('Fetching in-preparation orders from:', url);
     try {
       const response = await fetch(url, {

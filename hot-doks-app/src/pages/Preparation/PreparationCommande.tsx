@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Button from '../../components/Button/Button';
 import CommandeDetail, { Order } from '../../components/CommandeDetail/CommandeDetail';
-
-const API_BASE_URL = 'http://localhost:8080/hot-doks-api';
+import config from '../../config';
 
 const PageContainer = styled.div`
   height: calc(100vh - ${({ theme }) => theme.layout.headerHeight} - ${({ theme }) => theme.layout.footerHeight} - ${({ theme }) => theme.spacing.lg} * 2);
@@ -68,7 +67,7 @@ const PreparationCommande: React.FC = () => {
 
     const fetchNextOrder = async () => {
       try {
-        const url = `${API_BASE_URL}/orders/next-to-prepare?user=${username}`;
+        const url = `${config.API_BASE_URL}/orders/next-to-prepare?user=${username}`;
         console.log('Fetching next order to prepare, calling API:', url);
         const response = await fetch(url);
         if (!response.ok) {
@@ -87,7 +86,7 @@ const PreparationCommande: React.FC = () => {
 
   const handleCancelPreparation = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/orders/${order.id}/status?status=ORDERED`, {
+      const response = await fetch(`${config.API_BASE_URL}/orders/${order.id}/status?status=ORDERED`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -112,7 +111,7 @@ const PreparationCommande: React.FC = () => {
     if (!order.id) return;
     
     try {
-      const url = `${API_BASE_URL}/orders/${order.id}/status?status=READY`;
+      const url = `${config.API_BASE_URL}/orders/${order.id}/status?status=READY`;
       console.log('Finishing preparation, calling API:', url);
       const response = await fetch(url, {
         method: 'POST',
@@ -135,7 +134,7 @@ const PreparationCommande: React.FC = () => {
   };
 
   const startPreparation = async (orderId: string) => {
-    const url = `${API_BASE_URL}/orders/${orderId}/start`;
+    const url = `${config.API_BASE_URL}/orders/${orderId}/start`;
     console.log('Starting preparation, calling API:', url);
     try {
       const response = await fetch(url, {

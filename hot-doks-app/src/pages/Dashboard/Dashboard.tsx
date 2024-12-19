@@ -16,8 +16,7 @@ import {
   Area,
   Scatter
 } from 'recharts';
-
-const API_BASE_URL = 'http://localhost:8080/hot-doks-api';
+import config from '../../config';
 
 const PageContainer = styled.div`
   padding: ${({ theme }) => theme.spacing.lg};
@@ -328,7 +327,7 @@ const Dashboard: React.FC = () => {
 
   const calculateRevenue = useCallback(async () => {
     const formattedDate = formatDateToApi(dashboardDate);
-    const url = `${API_BASE_URL}/orders/filtered?orderDate=${formattedDate}&startIndex=0&pageLength=1000`;
+    const url = `${config.API_BASE_URL}/orders/filtered?orderDate=${formattedDate}&startIndex=0&pageLength=1000`;
     
     console.log('[API Call]', {
       method: 'GET',

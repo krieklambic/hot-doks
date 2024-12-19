@@ -11,6 +11,7 @@ import {
   TableRow,
   TableCell,
 } from '../../styles/globalStyles';
+import config from '../../config';
 
 const PageContainer = styled.div`
   padding: ${({ theme }) => theme.spacing.lg};
@@ -126,7 +127,6 @@ interface OrderView {
 }
 
 const ITEMS_PER_PAGE = 15;
-const API_BASE_URL = 'http://localhost:8080/hot-doks-api';
 
 const formatDate = (date: Date): string => {
   const day = date.getDate().toString().padStart(2, '0');
@@ -154,7 +154,7 @@ const Commandes: React.FC = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/orders/filtered?orderDate=${formatDate(new Date())}&startIndex=0&pageLength=${ITEMS_PER_PAGE}`, {
+      const response = await fetch(`${config.API_BASE_URL}/orders/filtered?orderDate=${formatDate(new Date())}&startIndex=0&pageLength=${ITEMS_PER_PAGE}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
